@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psimarro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/13 16:55:47 by psimarro          #+#    #+#             */
-/*   Updated: 2022/06/13 16:55:49 by psimarro         ###   ########.fr       */
+/*   Created: 2022/06/13 19:50:26 by psimarro          #+#    #+#             */
+/*   Updated: 2022/06/13 19:50:29 by psimarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*buff;
+	static char	*buffer[OPEN_MAX];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buff = get_line(fd, buff);
-	if (!buff)
+	buffer[fd] = get_line(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	line = trim_line(buff);
-	buff = save_rest(buff);
+	line = trim_line(buffer[fd]);
+	buffer[fd] = save_rest(buffer[fd]);
 	return (line);
 }
 
